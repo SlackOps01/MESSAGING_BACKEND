@@ -46,14 +46,16 @@ async def chat(ws: WebSocket):
     try:    
         token = ws.query_params.get("token")
     except:
-        ws.close(1008)
+        await ws.close(1008)
+        
     try:
         user_data = verify_access_token(token, credential_exception)
         username = user_data.username
         user_id = user_data.id
         user_role = user_data.role
     except HTTPException:
-        ws.close(1008)
+        await ws.close(1008)
+        
     
     await manager.connect(username, ws)
 
